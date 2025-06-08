@@ -1,32 +1,40 @@
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
-import Login from './pages/login/login';
-import Home from './pages/home/home';
-import { getAllPosts } from './utils/loaders';
-
-const ProtectedLayout = () => {
-  const isAuth = !!localStorage.getItem("userToken");
-  return isAuth ? <Outlet /> : <Navigate to="/login" replace />;
-};
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import Login from "./pages/login/login";
+import Home from "./pages/home/home";
+import { CommentProvider } from "./contexts/commentContext";
+import BlankLayout from "./layouts/blank-layout/blankLayout";
+import { PostsProvider } from "./contexts/postsContext";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "/",
-    element: <ProtectedLayout />,
+    element: <BlankLayout />,
     children: [
       {
         path: "home",
         element: <Home />,
-        loader:getAllPosts
+        // loader:getAllPosts
       },
-    ]
-  }
+    ],
+  },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <PostsProvider>
+      <CommentProvider>
+        <RouterProvider router={router} />
+      </CommentProvider>
+    </PostsProvider>
+  );
 }
 export default App;

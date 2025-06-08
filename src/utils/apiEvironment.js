@@ -1,27 +1,44 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { env } from "../environment/environment";
 
-const api = axios.create({ baseURL: "https://linked-posts.routemisr.com" });
+const api = axios.create({
+  baseURL: env.baseUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 api.interceptors.request.use(
-    config => {
-        const token = localStorage.getItem("userToken");
+  (config) => {
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      const decoded = jwtDecode(token);
+      env.loggedUserId = decoded.user;
+      config.headers.token = token;
+    }
 
-        if(token) {
-            config.headers.token = token;
-        }
-        return config;
-    },
-    err => {
-        console.error("Error: ",err);
-    }
-)
+    return config;
+  },
+  (error) => {
+    console.error("Request Error: ", error);
+    return Promise.reject(error);
+  }
+);
+
 api.interceptors.response.use(
-    response => response,
-    err => {
-        if(err.response && err.response.status === 403) {
-            console.error("unauthorized, token");
-        }
-        return Promise.reject(err)
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.warn("Token expired or invalid");
+      // localStorage.removeItem("userToken");
+      // window.location.href = "/login";
+    } else if (error.response?.status === 403) {
+      console.error("Forbidden: ", error.response.data);
     }
-)
-export default api
+
+    return Promise.reject(error);
+  }
+);
+
+export default api;
