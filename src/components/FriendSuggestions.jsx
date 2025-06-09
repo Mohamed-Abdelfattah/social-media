@@ -70,7 +70,7 @@ export default function FriendSuggestions({
           " Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif",
       }}
     >
-      <div className="m-2 border-1 border-[#ECF0F5] rounded-lg bg-white w-80 divide-y divide-[#ECF0F5] ">
+      <div className=" border-1 border-[#ECF0F5] rounded-lg bg-white divide-y w-full divide-[#ECF0F5] ">
         <h2 className="text-base font-semibold p-6 ps-10 text-[#0C1024]">
           Suggested Friends
         </h2>

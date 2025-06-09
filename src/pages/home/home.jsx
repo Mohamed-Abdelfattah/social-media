@@ -16,13 +16,13 @@ const Home = () => {
   return (
     <>
       <div className="container mx-auto">
-        <div className="grid py-7 md:grid-cols-12 gap-x-10">
-          <div className="col-span-3"></div>
+        <div className="grid py-7 lg:grid-cols-12 gap-x-3">
+          <div className="lg:col-span-3"></div>
           <div className="feed col-span-6 space-y-4">
             <CreatePost />
             <PostLayout />
           </div>
-          <div className="col-span-3">
+          <div className="lg:col-span-3 hidden lg:block">
             <FriendSuggestions />
           </div>
         </div>
