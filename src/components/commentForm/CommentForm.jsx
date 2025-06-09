@@ -3,9 +3,11 @@ import { InfoIcon, Send, Loader2, SquarePen, PencilOff } from "lucide-react";
 import { memo, useContext, useEffect, useState } from "react";
 import { sendComment, updateComment } from "../../utils/loaders";
 import { CommentContext } from "../../contexts/commentContext";
+import { PostsContext } from "../../contexts/postsContext";
 
-const CommentForm = ({ postId, setPosts, setIsComment }) => {
+const CommentForm = ({ postId }) => {
   const { editingComment, cancelEditing } = useContext(CommentContext);
+  const { setPosts } = useContext(PostsContext);
   const [userComment, setUserComment] = useState("");
   const [hasError, setHasError] = useState(false);
   const [errorData, setErrorData] = useState(null);
@@ -16,7 +18,7 @@ const CommentForm = ({ postId, setPosts, setIsComment }) => {
       setUserComment("");
       if (editingComment.isEditing) cancelEditing();
     };
-  }, [editingComment]);
+  }, [editingComment, cancelEditing]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,9 +64,6 @@ const CommentForm = ({ postId, setPosts, setIsComment }) => {
         );
       }
       setUserComment("");
-      if (setIsComment) {
-        setIsComment(true);
-      }
     } catch (error) {
       showError(error.message || "Failed to post comment");
     } finally {

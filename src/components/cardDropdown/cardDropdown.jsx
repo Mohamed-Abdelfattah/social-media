@@ -1,10 +1,11 @@
 import { Dropdown, DropdownItem } from "flowbite-react";
-import { DeleteModal } from "../deleteModal/deleteModal";
-import { useCallback, useEffect, useState } from "react";
+import DeleteModal from "../deleteModal/deleteModal";
+import { memo, useCallback, useState } from "react";
 import { env } from "../../environment/environment";
 import UpdateModal from "../updateModal/updateModal";
+import { PostsProvider } from "../../contexts/postsContext";
 
-function PostCardDropdown({ setPosts, post }) {
+function PostCardDropdown({ post }) {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
   // const [isSaved, setIsSaved] = useState(false);
@@ -37,41 +38,39 @@ function PostCardDropdown({ setPosts, post }) {
       >
         {post.user._id == env.loggedUserId && (
           <>
-            <DropdownItem className="hover:!bg-[#F1F4F9] !bg-white">
-              <button
-                onClick={() => {
-                  setUpdateModalIsOpen(true);
-                }}
-                className="block px-2 py-1 text-sm text-[#27364B] cursor-pointer"
-              >
+            <DropdownItem
+              className="hover:!bg-[#F1F4F9] !bg-white"
+              onClick={() => {
+                setUpdateModalIsOpen(true);
+              }}
+            >
+              <span className="block px-2 py-1 text-sm text-[#27364B] cursor-pointer">
                 Edit
-              </button>
+              </span>
             </DropdownItem>
-            <DropdownItem className="hover:!bg-[#F1F4F9] !bg-white">
-              <button
-                onClick={() => {
-                  setDeleteModalIsOpen(true);
-                }}
-                href="#"
-                className="block px-2 py-1 text-sm text-[#27364B] cursor-pointer"
-              >
+            <DropdownItem
+              className="hover:!bg-[#F1F4F9] !bg-white"
+              onClick={() => {
+                setDeleteModalIsOpen(true);
+              }}
+            >
+              <span className="block px-2 py-1 text-sm text-[#27364B] cursor-pointer">
                 Delete
-              </button>
+              </span>
             </DropdownItem>
           </>
         )}
-        <DropdownItem className="hover:!bg-[#F1F4F9] !bg-white">
-          <button
-            onClick={handleSavePost}
-            className="block px-2 py-1 text-sm text-[#27364B] cursor-pointer"
-          >
+        <DropdownItem
+          className="hover:!bg-[#F1F4F9] !bg-white"
+          onClick={handleSavePost}
+        >
+          <span className="block px-2 py-1 text-sm text-[#27364B] cursor-pointer">
             Save
-          </button>
+          </span>
         </DropdownItem>
       </Dropdown>
       {deleteModalIsOpen && (
         <DeleteModal
-          setPosts={setPosts}
           isOpen={deleteModalIsOpen}
           setIsOpen={setDeleteModalIsOpen}
           id={post._id}
@@ -80,7 +79,6 @@ function PostCardDropdown({ setPosts, post }) {
       )}
       {updateModalIsOpen && (
         <UpdateModal
-          setPosts={setPosts}
           isOpen={updateModalIsOpen}
           setIsOpen={setUpdateModalIsOpen}
           post={post}
@@ -89,4 +87,4 @@ function PostCardDropdown({ setPosts, post }) {
     </>
   );
 }
-export default PostCardDropdown;
+export default memo(PostCardDropdown);

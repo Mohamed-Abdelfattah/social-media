@@ -8,10 +8,12 @@ import {
   Textarea,
 } from "flowbite-react";
 import { Loader2, SquarePen, X } from "lucide-react";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useContext, useState } from "react";
 import { updatePost } from "../../utils/loaders";
+import { PostsContext } from "../../contexts/postsContext";
 
-function UpdateModal({ isOpen, setOpenModal, post, setPosts }) {
+function UpdateModal({ isOpen, setIsOpen, post }) {
+  const { setPosts } = useContext(PostsContext);
   const [content, setContent] = useState(post.body);
   const [isLoading, setIsLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
@@ -54,7 +56,7 @@ function UpdateModal({ isOpen, setOpenModal, post, setPosts }) {
         );
         setAlertMessage("Post updated successfully");
         setIsError(false);
-        // setTimeout(() => setOpenModal(false), 1500);
+        setTimeout(() => setIsOpen(false), 1500);
       } catch (error) {
         console.error("error in update post:", error);
         setAlertMessage(
@@ -65,7 +67,7 @@ function UpdateModal({ isOpen, setOpenModal, post, setPosts }) {
         setIsLoading(false);
       }
     },
-    [content, picture, post._id, setPosts]
+    [content, picture, post._id, setPosts, setIsOpen]
   );
   const getImage = useCallback((e) => {
     if (e.target.files && e.target.files[0]) {
@@ -88,7 +90,7 @@ function UpdateModal({ isOpen, setOpenModal, post, setPosts }) {
       show={isOpen}
       onClose={() => {
         if (!isLoading) {
-          setOpenModal(false);
+          setIsOpen(false);
         }
       }}
     >
@@ -149,7 +151,7 @@ function UpdateModal({ isOpen, setOpenModal, post, setPosts }) {
             </div>
           )}
         </ModalBody>
-        <ModalFooter className="bg-white border-0  p-4">
+        <ModalFooter className="bg-white border-0  p-4 block space-y-4">
           {alertMessage && (
             <div
               className={`w-full p-3 rounded-lg flex items-center justify-between ${
@@ -163,37 +165,39 @@ function UpdateModal({ isOpen, setOpenModal, post, setPosts }) {
                 onClick={() => {
                   setAlertMessage(null);
                 }}
-                className="hover:opacity-70"
+                className="hover:opacity-70 cursor-pointer"
               >
                 <X size={16} />
               </button>
             </div>
           )}
-          <Textarea
-            value={content}
-            autoFocus
-            onChange={handleChange}
-            style={{
-              background: "white",
-              borderColor: "#E2E8F0",
-              borderRadius: 8,
-              width: "calc(100% - 20px)",
-              color: "#27364B",
-            }}
-            type="text"
-            placeholder="post content"
-            disabled={isLoading}
-            rows={1}
-            resize="none"
-            required
-          />
-          <button className="cursor-pointer flex items-center justify-center w-8 h-8 hover:text-[#4C68D5] transition-colors duration-300">
-            {isLoading ? (
-              <Loader2 className="w-5 h-5 text-[#4C68D5] animate-spin cursor-not-allowed" />
-            ) : (
-              <SquarePen size={20} />
-            )}
-          </button>
+          <div className="flex gap-2 items-center">
+            <Textarea
+              value={content}
+              autoFocus
+              onChange={handleChange}
+              style={{
+                background: "white",
+                borderColor: "#E2E8F0",
+                borderRadius: 8,
+                width: "calc(100% - 20px)",
+                color: "#27364B",
+              }}
+              type="text"
+              placeholder="post content"
+              disabled={isLoading}
+              rows={1}
+              resize="none"
+              required
+            />
+            <button className="cursor-pointer flex items-center justify-center w-8 h-8 hover:text-[#4C68D5] transition-colors duration-300">
+              {isLoading ? (
+                <Loader2 className="w-5 h-5 text-[#4C68D5] animate-spin cursor-not-allowed" />
+              ) : (
+                <SquarePen size={20} />
+              )}
+            </button>
+          </div>
         </ModalFooter>
       </form>
     </Modal>

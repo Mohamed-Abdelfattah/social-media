@@ -6,10 +6,9 @@ import PostModal from "../postModal/postModal";
 import { getTime } from "../../utils/services";
 import CommentForm from "../commentForm/CommentForm";
 
-const PostCard = ({ post, setPosts }) => {
+const PostCard = ({ post }) => {
   const [isComment, setIsComment] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
   return (
     <>
       <div className="border border-[#ECF0F5] rounded-xl overflow-hidden">
@@ -27,11 +26,7 @@ const PostCard = ({ post, setPosts }) => {
             </h4>
           </div>
           <div className="flex flex-col items-end">
-            <PostCardDropdown
-              post={post}
-              postId={post._id}
-              setPosts={setPosts}
-            />
+            <PostCardDropdown post={post} postId={post._id} />
             <span className="text-[#707988] text-[12px] mt-2">
               {getTime(post.createdAt)}
             </span>
@@ -71,11 +66,7 @@ const PostCard = ({ post, setPosts }) => {
                 </div>
               </div>
               <div>
-                <CommentForm
-                  setPosts={setPosts}
-                  setIsComment={setIsComment}
-                  postId={post.id}
-                />
+                <CommentForm postId={post.id} />
               </div>
             </>
           ) : (
@@ -98,12 +89,7 @@ const PostCard = ({ post, setPosts }) => {
       </div>
 
       {openModal && (
-        <PostModal
-          setPosts={setPosts}
-          isOpen={openModal}
-          post={post}
-          setOpenModal={setOpenModal}
-        />
+        <PostModal isOpen={openModal} post={post} setOpenModal={setOpenModal} />
       )}
     </>
   );

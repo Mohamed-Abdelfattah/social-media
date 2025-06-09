@@ -1,9 +1,11 @@
 import { Button, Modal, ModalBody, ModalHeader } from "flowbite-react";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useContext, useState } from "react";
 import { deleteComment, deletePost } from "../../utils/loaders";
 import { Info, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { PostsContext } from "../../contexts/postsContext";
 
-export function DeleteModal({ modalMode, id, isOpen, setIsOpen, setPosts }) {
+function DeleteModal({ modalMode, id, isOpen, setIsOpen }) {
+  const { setPosts } = useContext(PostsContext);
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState({ success: null, message: "" });
 
@@ -18,6 +20,7 @@ export function DeleteModal({ modalMode, id, isOpen, setIsOpen, setPosts }) {
           prevPosts.filter((post) => post._id !== res.post._id)
         );
         setStatus({ success: true, message: "Post deleted successfully!" });
+        setTimeout(() => setIsOpen(false), 1500);
       } else if (modalMode === "comment") {
         await deleteComment(id);
         setStatus({ success: true, message: "Comment deleted successfully!" });
@@ -36,7 +39,7 @@ export function DeleteModal({ modalMode, id, isOpen, setIsOpen, setPosts }) {
     } finally {
       setIsLoading(false);
     }
-  }, [setPosts, id, modalMode, setIsOpen]);
+  }, [setPosts, id, modalMode, setIsOpen, status.success]);
 
   const resetModal = () => {
     setIsOpen(false);
@@ -118,3 +121,4 @@ export function DeleteModal({ modalMode, id, isOpen, setIsOpen, setPosts }) {
     </Modal>
   );
 }
+export default memo(DeleteModal);

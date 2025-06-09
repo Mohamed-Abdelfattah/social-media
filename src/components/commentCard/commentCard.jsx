@@ -3,7 +3,7 @@ import { getTime } from "../../utils/services";
 import { CommentContext } from "../../contexts/commentContext";
 import { env } from "../../environment/environment";
 import { BadgeX, Pencil } from "lucide-react";
-import { DeleteModal } from "../deleteModal/deleteModal";
+import DeleteModal from "../deleteModal/deleteModal";
 
 const CommentCard = ({ comment }) => {
   const { startEditing } = useContext(CommentContext);

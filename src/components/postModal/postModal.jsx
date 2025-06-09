@@ -3,7 +3,7 @@ import CommentCard from "../commentCard/commentCard";
 import { memo } from "react";
 import CommentForm from "../commentForm/CommentForm";
 
-function PostModal({ isOpen, setOpenModal, post, setPosts }) {
+function PostModal({ isOpen, setOpenModal, post }) {
   return (
     <Modal
       show={isOpen}
@@ -31,12 +31,7 @@ function PostModal({ isOpen, setOpenModal, post, setPosts }) {
         </div>
       </ModalBody>
       <ModalFooter className="bg-white border-0 !block p-0">
-        <CommentForm
-          className="w-full"
-          postId={post.id}
-          setPosts={setPosts}
-          autoFocus={true}
-        />
+        <CommentForm className="w-full" postId={post.id} />
       </ModalFooter>
     </Modal>
   );
