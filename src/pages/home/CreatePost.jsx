@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import api from "../../utils/apiEvironment";
 import StatusOverlay from "../../components/StatusOverlay";
 import ImageUpload from "../../components/ImageUpload";
 import useTextValidation from "../../hooks/useTextValidation";
+import api from "../../utils/apiEnvironment";
 
-export default function CreatePost({ profilePicture = "https://linked-posts.routemisr.com/uploads/default-profile.png" }) {
-  const [status, setStatus] = useState({ loading: false, error: null, data: null });
+export default function CreatePost({
+  profilePicture = "https://linked-posts.routemisr.com/uploads/default-profile.png",
+}) {
+  const [status, setStatus] = useState({
+    loading: false,
+    error: null,
+    data: null,
+  });
   const [image, setImage] = useState(null);
   const [postContent, setPostContent] = useState("");
-  const { error: textValidError, setError: setTextValidError, validateAndSanitize } = useTextValidation("Post content cannot be empty.");
+  const {
+    error: textValidError,
+    setError: setTextValidError,
+    validateAndSanitize,
+  } = useTextValidation("Post content cannot be empty.");
 
   function postClickHandler(e) {
     e.preventDefault();
@@ -21,7 +31,9 @@ export default function CreatePost({ profilePicture = "https://linked-posts.rout
       formData.append("image", image);
     }
 
-    newPost("/posts", formData, { headers: { "Content-Type": "multipart/form-data" } });
+    newPost("/posts", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
     async function newPost(url, body, config) {
       try {
@@ -45,13 +57,20 @@ export default function CreatePost({ profilePicture = "https://linked-posts.rout
 
   return (
     <div
-      className="w-full sm:max-w-[582px] md:w-[582px] px-4 py-5 sm:px-7 sm:py-5 bg-white flex flex-col gap-5 rounded-lg border-1 border-[#ECF0F5] relative"
-      style={{ fontFamily: " Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif" }}
+      className="w-full  px-4 py-5 sm:px-7 sm:py-5 bg-white flex flex-col gap-5 rounded-lg border-1 border-[#ECF0F5] relative"
+      style={{
+        fontFamily:
+          " Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif",
+      }}
     >
       <StatusOverlay status={status} onDismiss={dismissOverlay} />
 
       <div className="flex gap-4 items-center">
-        <img src={profilePicture} alt="" className="w-10 h-10 rounded-full mr-3 bg-gray-200" />
+        <img
+          src={profilePicture}
+          alt=""
+          className="w-10 h-10 rounded-full mr-3 bg-gray-200"
+        />
 
         <div className="w-full relative">
           <textarea
@@ -60,7 +79,9 @@ export default function CreatePost({ profilePicture = "https://linked-posts.rout
             placeholder={`${"\n"}What's on your mind?`}
             rows={3}
             className={`${
-              textValidError ? "border-red-500 placeholder:text-red-500" : "border-[#E2E8F0] placeholder:text-[#838B98]"
+              textValidError
+                ? "border-red-500 placeholder:text-red-500"
+                : "border-[#E2E8F0] placeholder:text-[#838B98]"
             } placeholder:pt-2 border-b-1 placeholder:text-sm resize-none w-full outline-none text-[#0C1024] text-base font-normal active:border-[#0C1024] focus:border-[#0C1024] focus:ring-0 focus:placeholder:text-white`}
             value={postContent}
             onChange={(e) => {
@@ -69,7 +90,11 @@ export default function CreatePost({ profilePicture = "https://linked-posts.rout
             }}
           ></textarea>
 
-          {textValidError && <div className="absolute text-red-500 text-xs">{textValidError}</div>}
+          {textValidError && (
+            <div className="absolute text-red-500 text-xs">
+              {textValidError}
+            </div>
+          )}
         </div>
       </div>
 

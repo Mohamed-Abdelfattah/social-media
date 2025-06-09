@@ -53,7 +53,9 @@ export default function FriendSuggestions({
     name: post.user.name,
     profilePicture:
       post.user.photo === "https://linked-posts.routemisr.com/uploads/undefined"
-        ? `https://avatar.iran.liara.run/username?username=${post.user.name.split(" ")[0]}+${post.user.name.split(" ")[1] ?? ""}`
+        ? `https://avatar.iran.liara.run/username?username=${
+            post.user.name.split(" ")[0]
+          }+${post.user.name.split(" ")[1] ?? ""}`
         : post.user.photo,
   }));
 
@@ -63,12 +65,15 @@ export default function FriendSuggestions({
   return (
     <div
       className="flex flex-col justify-center items-center gap-8"
-      // style={{ fontFamily: " sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji" }}
-      // style={{ fontFamily: "Verdana, Geneva, Tahoma, sans-serif" }}
-      style={{ fontFamily: " Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif" }}
+      style={{
+        fontFamily:
+          " Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif",
+      }}
     >
       <div className="m-2 border-1 border-[#ECF0F5] rounded-lg bg-white w-80 divide-y divide-[#ECF0F5] ">
-        <h2 className="text-base font-semibold p-6 ps-10 text-[#0C1024]">Suggested Friends</h2>
+        <h2 className="text-base font-semibold p-6 ps-10 text-[#0C1024]">
+          Suggested Friends
+        </h2>
 
         <div className="p-8 flex flex-col gap-6">
           {randomUsers.map((user) => (
@@ -86,7 +91,11 @@ function UserCard({ user }) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <img src={user.profilePicture} alt={user.name} className="w-14 h-14 rounded-full mr-3 bg-gray-200" />
+        <img
+          src={user.profilePicture}
+          alt={user.name}
+          className="w-14 h-14 rounded-full mr-3 bg-gray-200"
+        />
 
         <div className="flex flex-col gap-1.5">
           <h3 className="text-sm font-semibold text-[#0C1024]">{user.name}</h3>
@@ -106,7 +115,7 @@ function UserCard({ user }) {
 
 function Footer() {
   return (
-    <div className="flex flex-col justify-center items-center text-xs text-[#838B98]">
+    <div className="flex gap-3 flex-col justify-center items-center text-xs text-[#838B98]">
       <p>© 2023 DevCut. All rights reserved.</p>
 
       <ul className="flex gap-4  ">

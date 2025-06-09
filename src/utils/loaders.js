@@ -12,6 +12,7 @@ export async function getUserPosts() {
   );
   return req.data;
 }
+
 export async function updatePost(postId, formData) {
   const req = await api.put(`/posts/${postId}`, formData, {
     headers: {
