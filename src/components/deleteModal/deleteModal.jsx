@@ -59,7 +59,7 @@ function DeleteModal({ modalMode, id, isOpen, setIsOpen }) {
         <div className="text-center">
           {/* Status Icon */}
           {status.success === null ? (
-            <Info className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200 animate-pulse" />
+            <Info className="mx-auto mb-4 h-14 w-14 text-gray-400 animate-pulse" />
           ) : status.success ? (
             <CheckCircle2 className="mx-auto mb-4 h-14 w-14 text-green-500 animate-bounce" />
           ) : (
@@ -67,7 +67,7 @@ function DeleteModal({ modalMode, id, isOpen, setIsOpen }) {
           )}
 
           {/* Main Text */}
-          <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <h3 className="mb-5 text-lg font-normal text-gray-500 ">
             {status.success === null
               ? `Are you sure you want to delete this ${modalMode}?`
               : status.message}
@@ -98,7 +98,7 @@ function DeleteModal({ modalMode, id, isOpen, setIsOpen }) {
               <Button
                 color="gray"
                 disabled={isLoading}
-                className="hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02]"
+                className="hover:bg-gray-200 cursor-pointer  transition-all duration-300 hover:scale-[1.02]"
                 onClick={resetModal}
               >
                 No, cancel

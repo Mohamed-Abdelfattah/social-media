@@ -1,8 +1,16 @@
-import api from "./apiEvironment";
+import { env } from "../environment/environment";
+import api from "./apiEnvironment";
 
 export async function getAllPosts(page) {
   const req = await api.get(`/posts?page=${page}`);
   return await req.data;
+}
+
+export async function getUserPosts() {
+  const req = await api.get(
+    `https://linked-posts.routemisr.com/users/${env.loggedUserId}/posts`
+  );
+  return req.data;
 }
 export async function updatePost(postId, formData) {
   const req = await api.put(`/posts/${postId}`, formData, {
@@ -12,6 +20,7 @@ export async function updatePost(postId, formData) {
   });
   return req.data;
 }
+
 export async function sendComment(content, postId) {
   const userComment = {
     content: content,
@@ -33,6 +42,7 @@ export async function deletePost(postId) {
   const req = await api.delete(`/posts/${postId}`);
   return await req.data;
 }
+
 export async function deleteComment(commentId) {
   const req = await api.delete(`/comments/${commentId}`);
   return req.data;

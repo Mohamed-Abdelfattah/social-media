@@ -1,5 +1,5 @@
-import { createContext, useCallback, useState, useRef } from "react";
-import { getAllPosts } from "../utils/loaders";
+import { createContext, useCallback, useState, useRef, useEffect } from "react";
+import { getAllPosts, getUserPosts } from "../utils/loaders";
 
 export const PostsContext = createContext();
 
@@ -9,6 +9,7 @@ export const PostsProvider = ({ children }) => {
   const [hasError, setHasError] = useState(false);
   const [paginationInfo, setPaginationInfo] = useState(null);
   const isFetchingRef = useRef(false);
+  const [savedPostsList, setSavedPostsList] = useState([]);
 
   const hasMore = paginationInfo
     ? paginationInfo.currentPage < paginationInfo.numberOfPages
@@ -40,10 +41,45 @@ export const PostsProvider = ({ children }) => {
       setIsLoading(false);
     }
   }, []);
+  const getUserData = useCallback(async (page = 1) => {
+    if (isFetchingRef.current) return;
 
+    isFetchingRef.current = true;
+    setIsLoading(true);
+
+    try {
+      const response = await getUserPosts(page);
+
+      setPosts((prevPosts) => {
+        if (page === 1) return response.posts;
+
+        const existingIds = new Set(prevPosts.map((p) => p.id));
+        const newPosts = response.posts.filter((p) => !existingIds.has(p.id));
+        return [...prevPosts, ...newPosts];
+      });
+
+      setPaginationInfo(response.paginationInfo);
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
+      setHasError(true);
+    } finally {
+      isFetchingRef.current = false;
+      setIsLoading(false);
+    }
+  }, []);
+  const handleSavedPostsList = () => {
+    if (!localStorage.getItem("savedPosts")) return;
+    const savedData = JSON.parse(localStorage.getItem("savedPosts"));
+    setSavedPostsList(savedData.map((p) => p._id));
+  };
+  useEffect(() => {
+    handleSavedPostsList();
+  }, []);
   return (
     <PostsContext.Provider
       value={{
+        setSavedPostsList,
+        savedPostsList,
         posts,
         setPosts,
         isLoading,
@@ -51,6 +87,7 @@ export const PostsProvider = ({ children }) => {
         hasMore,
         isFetching: isFetchingRef.current,
         getAllData,
+        getUserData,
       }}
     >
       {children}

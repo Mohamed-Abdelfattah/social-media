@@ -1,5 +1,4 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import { env } from "../environment/environment";
 
 const api = axios.create({
@@ -13,8 +12,6 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("userToken");
     if (token) {
-      const decoded = jwtDecode(token);
-      env.loggedUserId = decoded.user;
       config.headers.token = token;
     }
 

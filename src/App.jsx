@@ -9,6 +9,7 @@ import Home from "./pages/home/home";
 import { CommentProvider } from "./contexts/commentContext";
 import BlankLayout from "./layouts/blank-layout/blankLayout";
 import { PostsProvider } from "./contexts/postsContext";
+import UserProfile from "./pages/userProfile/userProfile";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,10 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <Home />,
-        // loader:getAllPosts
+      },
+      {
+        path: "profile",
+        element: <UserProfile />,
       },
     ],
   },

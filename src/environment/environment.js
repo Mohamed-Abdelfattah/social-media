@@ -1,4 +1,6 @@
+import { jwtDecode } from "jwt-decode";
+
 export const env = {
-  loggedUserId: null,
+  loggedUserId: jwtDecode(localStorage.getItem("userToken")).user,
   baseUrl: "https://linked-posts.routemisr.com",
 };

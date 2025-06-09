@@ -4,16 +4,18 @@ import { Alert } from "flowbite-react";
 import { Info } from "lucide-react";
 import LoadingSkeleton from "../loadingSkeleton/loadingSkeleton";
 import { PostsContext } from "../../contexts/postsContext";
+import { useLocation } from "react-router-dom";
 
 const PostLayout = () => {
+  const { pathname } = useLocation();
   const {
     posts,
-    setPosts,
     isLoading,
     hasError,
     hasMore,
     isFetching,
     getAllData,
+    getUserData,
   } = useContext(PostsContext);
 
   const listInnerRef = useRef();
@@ -22,18 +24,21 @@ const PostLayout = () => {
 
   // Initial load
   useEffect(() => {
-    getAllData(1);
+    if (pathname == "/home") {
+      getAllData(1);
+    } else if (pathname == "/profile") {
+      getUserData(1);
+    }
     pageRef.current = 1;
-  }, [getAllData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Clean up timeout on unmount
   useEffect(() => {
     return () => {
       scrollTimeoutRef.current && clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 
-  // Optimized scroll handler with debounce
   const handleScroll = useCallback(() => {
     if (!listInnerRef.current || isFetching || !hasMore) return;
 
@@ -45,10 +50,14 @@ const PostLayout = () => {
 
       scrollTimeoutRef.current = setTimeout(() => {
         pageRef.current += 1;
-        getAllData(pageRef.current);
+        if (pathname == "/home") {
+          getAllData(pageRef.current);
+        } else if (pathname == "/profile") {
+          getUserData(pageRef.current);
+        }
       }, 200);
     }
-  }, [isFetching, hasMore, getAllData]);
+  }, [isFetching, hasMore, getAllData, getUserData, pathname]);
 
   if (hasError) {
     return (
@@ -70,7 +79,6 @@ const PostLayout = () => {
         <PostCard
           key={`${post.id}-${post.updatedAt || post.createdAt}`}
           post={post}
-          setPosts={setPosts}
         />
       ))}
 
