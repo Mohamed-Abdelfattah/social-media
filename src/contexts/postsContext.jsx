@@ -1,6 +1,5 @@
 import { createContext, useCallback, useState, useRef, useEffect } from "react";
 import { getAllPosts, getUserPosts } from "../utils/loaders";
-
 export const PostsContext = createContext();
 
 export const PostsProvider = ({ children }) => {
@@ -48,8 +47,7 @@ export const PostsProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      const response = await getUserPosts(page);
-
+      const response = await getUserPosts();
       setPosts((prevPosts) => {
         if (page === 1) return response.posts;
 

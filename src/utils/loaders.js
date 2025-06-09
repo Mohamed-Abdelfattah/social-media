@@ -7,9 +7,11 @@ export async function getAllPosts(page) {
 }
 
 export async function getUserPosts() {
-  const req = await api.get(
-    `https://linked-posts.routemisr.com/users/${env.loggedUserId}/posts`
-  );
+  const req = await api.get(`/users/${env.loggedUserData._id}/posts`);
+  return req.data;
+}
+export async function getUserData() {
+  const req = await api.get(`/users/profile-data`);
   return req.data;
 }
 

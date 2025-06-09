@@ -1,8 +1,8 @@
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
-export default function FriendSuggestions({
+function FriendSuggestions({
   postsList = [
     {
       user: {
@@ -126,3 +126,4 @@ function Footer() {
     </div>
   );
 }
+export default memo(FriendSuggestions);

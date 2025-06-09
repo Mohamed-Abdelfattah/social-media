@@ -32,7 +32,7 @@ const CommentCard = ({ comment }) => {
             </div>
           </div>
           <div className="flex flex-col items-end">
-            {comment.commentCreator._id == env.loggedUserId && (
+            {comment.commentCreator._id == env.loggedUserData._id && (
               <div className="flex items-center gap-2">
                 <button
                   className="text-[#707988] hover:text-[#4C68D5] text-[12px] cursor-pointer"

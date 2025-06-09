@@ -1,14 +1,7 @@
-// import { useLoaderData } from "react-router-dom";
-import { useContext, useEffect } from "react";
 import PostLayout from "../../components/postLayout/postLayout";
-import { PostsContext } from "../../contexts/postsContext";
 import CreatePost from "./CreatePost";
 import FriendSuggestions from "../../components/FriendSuggestions";
 const Home = () => {
-  const { getAllData } = useContext(PostsContext);
-  useEffect(() => {
-    getAllData();
-  }, [getAllData]);
   // const posts = useLoaderData();
   // console.log(posts);
   // console.log(navigation);

@@ -1,20 +1,19 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  Outlet,
-  RouterProvider,
-} from "react-router-dom";
-import Login from "./pages/login/login";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home/home";
 import { CommentProvider } from "./contexts/commentContext";
 import BlankLayout from "./layouts/blank-layout/blankLayout";
 import { PostsProvider } from "./contexts/postsContext";
 import UserProfile from "./pages/userProfile/userProfile";
-
+import Register from "./pages/Register/Register";
+import SignIn from "./pages/Sign in/SignIn";
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <Login />,
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "/signin",
+    element: <SignIn />,
   },
   {
     path: "/",

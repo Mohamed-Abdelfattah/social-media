@@ -41,7 +41,7 @@ function PostCardDropdown({ post }) {
         }}
         className="*:bg-white "
       >
-        {post.user._id == env.loggedUserId && (
+        {post.user._id == env.loggedUserData._id && (
           <>
             <DropdownItem
               className="hover:!bg-[#F1F4F9] !bg-white"
