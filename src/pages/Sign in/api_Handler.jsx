@@ -4,15 +4,11 @@ import { env } from "../../environment/environment";
 
 export async function handelSignIn(info, navigate) {
   try {
-    const { data } = await axios.post(
-      "https://linked-posts.routemisr.com/users/signin",
-      info,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const { data } = await axios.post("https://linked-posts.routemisr.com/users/signin", info, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     console.log(data.token);
     localStorage.setItem("userToken", data.token);
